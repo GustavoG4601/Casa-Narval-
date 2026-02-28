@@ -2,10 +2,14 @@ import Hero from '../components/Hero.jsx'
 import AmenitiesGrid from '../components/AmenitiesGrid.jsx'
 import ReviewCard from '../components/ReviewCard.jsx'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Home(){
-  // 👉 Aquí defines la ruta de tu imagen
-  const FEATURE_IMAGE_SRC = 'https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/94870e90-3379-406e-85c8-b5b0800f0e27.jpeg?im_w=1440'
+  const { siteData } = useContext(AdminContext)
+  const FEATURE_IMAGE_SRC = siteData?.home?.featureImage || 'https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/94870e90-3379-406e-85c8-b5b0800f0e27.jpeg?im_w=1440'
+  const HEADING = siteData?.home?.heading || 'Espacios pensados para desconectar'
+  const PAR = siteData?.home?.paragraph || 'Dormitorios luminosos, sala abierta, cocina equipada y una terraza perfecta para asados y atardeceres.'
 
   return (
     <main>
@@ -23,10 +27,8 @@ export default function Home(){
             </div>
 
             <div className="col-lg-6">
-              <h2 className="fw-bold">Espacios pensados para desconectar</h2>
-              <p className="text-muted">
-                Dormitorios luminosos, sala abierta, cocina equipada y una terraza perfecta para asados y atardeceres.
-              </p>
+              <h2 className="fw-bold">{HEADING}</h2>
+              <p className="text-muted">{PAR}</p>
               <div className="mt-3">
                 <Link to="/galeria" className="btn btn-outline-primary rounded-pill">
                   Ver galería completa

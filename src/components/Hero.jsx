@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Hero(){
   const [checkin, setCheckin] = useState('')
   const [checkout, setCheckout] = useState('')
   const [huespedes, setHuespedes] = useState(2)
   const [telefono, setTelefono] = useState('')
+  const { siteData } = useContext(AdminContext)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -65,11 +67,11 @@ export default function Hero(){
             </span>
 
             <h1 className="display-5 fw-bold mb-3">
-              Cabaña frente al mar — diseño moderno, brisa eterna
+              {siteData?.hero?.title ?? 'Cabaña frente al mar — diseño moderno, brisa eterna'}
             </h1>
 
             <p className="lead mb-4">
-              Despierta con el sonido de las olas, camina 3 minutos a la playa y disfruta de una estancia cómoda con espacios pensados para descansar.
+              {siteData?.hero?.subtitle ?? 'Despierta con el sonido de las olas, camina 3 minutos a la playa y disfruta de una estancia cómoda con espacios pensados para descansar.'}
             </p>
 
             <div className="d-flex gap-2">
