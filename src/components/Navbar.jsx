@@ -1,9 +1,18 @@
 import { Link, NavLink } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Navbar() {
   const { isAdmin } = useContext(AdminContext)
+  const navbarToggleRef = useRef(null)
+  const navbarCollapseRef = useRef(null)
+
+  const handleNavLinkClick = () => {
+    if (window.innerWidth < 992) {
+      const bsCollapse = new window.bootstrap.Collapse(navbarCollapseRef.current, { toggle: false })
+      bsCollapse.hide()
+    }
+  }
 
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3">
@@ -20,14 +29,14 @@ export default function Navbar() {
         <button className="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsMain" aria-controls="navbarsMain" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarsMain">
+        <div className="collapse navbar-collapse" id="navbarsMain" ref={navbarCollapseRef}>
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/galeria">Galería</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/precios">Precios</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/servicios">Servicios</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/ubicacion">Ubicación</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/resenas">Reseñas</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/contacto">Contacto</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/galeria" onClick={handleNavLinkClick}>Galería</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/precios" onClick={handleNavLinkClick}>Precios</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/servicios" onClick={handleNavLinkClick}>Servicios</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/ubicacion" onClick={handleNavLinkClick}>Ubicación</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/resenas" onClick={handleNavLinkClick}>Reseñas</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/contacto" onClick={handleNavLinkClick}>Contacto</NavLink></li>
           </ul>
           <div className="d-flex align-items-center ms-3 gap-3">
             <Link className="btn btn-brand text-white rounded-pill px-4 fw-bold shadow-sm" to="/precios">

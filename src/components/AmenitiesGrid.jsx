@@ -16,15 +16,15 @@ export default function AmenitiesGrid() {
         <div className="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Disponibles</div>
       </div>
 
-      <div className="row g-4 mb-4">
+      <div className="row g-3 g-md-4 mb-4">
         {available.map((it, idx) => (
-          <div className="col-md-6 col-lg-4" key={idx}>
-            <div className="card h-100 border-0 bg-light-soft p-4 rounded-4 hover-up shadow-none border border-transparent hover-border-info transition-all shadow-sm">
-              <div className="d-flex align-items-center gap-3 mb-3">
-                <div className="bg-brand rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: 45, height: 45 }}>
+          <div className="col-12 col-sm-6 col-lg-4" key={idx}>
+            <div className="card h-100 border-0 bg-light-soft p-3 p-md-4 rounded-4 hover-up shadow-none border border-transparent hover-border-info transition-all shadow-sm">
+              <div className="d-flex align-items-start gap-3 mb-3">
+                <div className="bg-brand rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 45, height: 45 }}>
                   <i className={`bi bi-${it.icon} fs-4 text-white`} />
                 </div>
-                <h6 className="fw-bold m-0 text-dark-blue">{it.title}</h6>
+                <h6 className="fw-bold m-0 text-dark-blue fs-6">{it.title}</h6>
               </div>
               <p className="small text-muted mb-0 lh-base">{it.text}</p>
             </div>
@@ -46,15 +46,15 @@ export default function AmenitiesGrid() {
             <div className="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">No dispone</div>
           </div>
 
-          <div className="row g-4 mb-3">
+          <div className="row g-3 g-md-4 mb-3">
             {notAvailable.map((it, idx) => (
-              <div className="col-md-6 col-lg-4" key={idx}>
-                <div className="card h-100 border-0 bg-light p-4 rounded-4 opacity-75 shadow-sm">
-                  <div className="d-flex align-items-center gap-3 mb-3">
-                    <div className="bg-secondary bg-opacity-10 rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: 45, height: 45 }}>
+              <div className="col-12 col-sm-6 col-lg-4" key={idx}>
+                <div className="card h-100 border-0 bg-light p-3 p-md-4 rounded-4 opacity-75 shadow-sm">
+                  <div className="d-flex align-items-start gap-3 mb-3">
+                    <div className="bg-secondary bg-opacity-10 rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 45, height: 45 }}>
                       <i className={`bi bi-${it.icon} fs-4 text-muted`} />
                     </div>
-                    <h6 className="fw-bold m-0 text-muted">{it.title}</h6>
+                    <h6 className="fw-bold m-0 text-muted fs-6">{it.title}</h6>
                   </div>
                   <p className="small text-muted mb-0 lh-base">{it.text}</p>
                 </div>

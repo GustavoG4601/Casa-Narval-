@@ -5,6 +5,8 @@ export default function Precios() {
   const { siteData } = useContext(AdminContext)
   const plans = siteData?.plans || []
 
+  const whatsapp = siteData?.contact?.whatsapp || ''
+
   return (
     <main className="py-5 bg-light-soft">
       <div className="container">
@@ -15,34 +17,46 @@ export default function Precios() {
 
         <div className="row g-4 justify-content-center">
           {plans.length > 0 ? (
-            plans.map((p, i) => (
-              <div className="col-12 col-md-6 col-lg-4" key={i}>
-                <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                  <div className={`p-4 ${i === 1 ? 'bg-info text-white' : 'bg-white'}`}>
-                    <h5 className="fw-bold mb-1">{p.name}</h5>
-                    <p className={`small m-0 ${i === 1 ? 'text-white-50' : 'text-muted'}`}>{p.desc}</p>
-                  </div>
-                  <div className="card-body p-4 bg-white">
-                    <div className="d-flex align-items-baseline gap-2 mb-4">
-                      <h2 className="fw-bold mb-0">${p.price.toLocaleString()}</h2>
-                      <span className="text-muted small">/ noche</span>
+            plans.map((p, i) => {
+              const msg = encodeURIComponent(`Hola! Me interesa el plan "${p.name}" a $${p.price.toLocaleString()} por noche.`)
+              const href = whatsapp
+                ? `https://api.whatsapp.com/send?phone=${whatsapp}&text=${msg}`
+                : '/contacto'
+
+              return (
+                <div className="col-12 col-md-6 col-lg-4" key={i}>
+                  <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
+                    <div className={`p-4 ${i === 1 ? 'bg-info text-white' : 'bg-white'}`}>
+                      <h5 className="fw-bold mb-1">{p.name}</h5>
+                      <p className={`small m-0 ${i === 1 ? 'text-white-50' : 'text-muted'}`}>{p.desc}</p>
                     </div>
-                    <ul className="list-unstyled d-flex flex-column gap-3 mb-4">
-                      {p.includes?.map((x, idx) => (
-                        <li key={idx} className="small d-flex align-items-center gap-2">
-                          <i className="bi bi-check-circle-fill text-success" /> {x}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="card-footer p-4 pt-0 bg-white border-0">
-                    <button className={`btn w-100 rounded-pill py-2 fw-bold ${i === 1 ? 'btn-info text-white' : 'btn-outline-info'}`}>
-                      Reservar Ahora
-                    </button>
+                    <div className="card-body p-4 bg-white">
+                      <div className="d-flex align-items-baseline gap-2 mb-4">
+                        <h2 className="fw-bold mb-0">${p.price.toLocaleString()}</h2>
+                        <span className="text-muted small">/ noche</span>
+                      </div>
+                      <ul className="list-unstyled d-flex flex-column gap-3 mb-4">
+                        {p.includes?.map((x, idx) => (
+                          <li key={idx} className="small d-flex align-items-center gap-2">
+                            <i className="bi bi-check-circle-fill text-success" /> {x}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="card-footer p-4 pt-0 bg-white border-0">
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`btn w-100 rounded-pill py-2 fw-bold ${i === 1 ? 'btn-info text-white' : 'btn-outline-info'}`}
+                      >
+                        Reservar Ahora
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              )
+            })
           ) : (
             <div className="text-center py-5 w-100">
               <div className="spinner-border text-info" />

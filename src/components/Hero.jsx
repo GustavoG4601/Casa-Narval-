@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Hero(){
@@ -7,7 +7,22 @@ export default function Hero(){
   const [checkout, setCheckout] = useState('')
   const [huespedes, setHuespedes] = useState(2)
   const [telefono, setTelefono] = useState('')
+  const [avgRating, setAvgRating] = useState(4.95)
+  const [totalReviews, setTotalReviews] = useState(120)
   const { siteData } = useContext(AdminContext)
+
+  useEffect(() => {
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(reviews => {
+        const avg = reviews.length > 0 
+          ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(2)
+          : 4.95
+        setAvgRating(avg)
+        setTotalReviews(reviews.length)
+      })
+      .catch(err => console.error('Error cargando reseñas:', err))
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -20,7 +35,9 @@ export default function Hero(){
       - Mi teléfono es: ${telefono}
     `
 
-    const url = `https://wa.me/573006806697?text=${encodeURIComponent(mensaje)}`
+    const waNumber = siteData?.contact?.whatsapp || '573006806697'
+    const cleanNumber = String(waNumber).replace(/^\+/, '').replace(/\s+/g, '')
+    const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(mensaje)}`
     window.open(url, '_blank')
   }
 
@@ -34,7 +51,7 @@ export default function Hero(){
     >
       {/* VIDEO DE FONDO */}
       <video
-        src="/media/fondo.mp4"
+        src="/public/media/fondo.mp4"
         autoPlay
         muted
         loop
@@ -85,50 +102,50 @@ export default function Hero(){
           </div>
 
           <div className="col-lg-5 mt-4 mt-lg-0">
-            <div className="card p-3 p-lg-4 position-relative">
+            <div className="card p-3 p-sm-4 position-relative">
               <div className="pricing-badge">
-                <i className="bi bi-star-fill me-1" />4.95 / 120 reseñas
+                <i className="bi bi-star-fill me-1" />{avgRating} / {totalReviews} reseñas
               </div>
 
               <h5 className="fw-semibold">Reserva rápida</h5>
 
-              <form className="row g-3 mt-1" onSubmit={handleSubmit}>
-                <div className="col-12 col-md-6">
-                  <label className="form-label">Check-in</label>
+              <form className="row g-2 g-sm-3 mt-1" onSubmit={handleSubmit}>
+                <div className="col-12">
+                  <label className="form-label small">Check-in</label>
                   <input 
                     type="date" 
-                    className="form-control" 
+                    className="form-control form-control-sm" 
                     value={checkin}
                     onChange={e => setCheckin(e.target.value)}
                   />
                 </div>
 
-                <div className="col-12 col-md-6">
-                  <label className="form-label">Check-out</label>
+                <div className="col-12">
+                  <label className="form-label small">Check-out</label>
                   <input 
                     type="date" 
-                    className="form-control" 
+                    className="form-control form-control-sm" 
                     value={checkout}
                     onChange={e => setCheckout(e.target.value)}
                   />
                 </div>
 
-                <div className="col-12 col-md-6">
-                  <label className="form-label">Huéspedes</label>
+                <div className="col-12">
+                  <label className="form-label small">Huéspedes</label>
                   <input 
                     type="number" 
                     min="1" 
-                    className="form-control" 
+                    className="form-control form-control-sm" 
                     value={huespedes}
                     onChange={e => setHuespedes(e.target.value)}
                   />
                 </div>
 
-                <div className="col-12 col-md-6">
-                  <label className="form-label">Teléfono</label>
+                <div className="col-12">
+                  <label className="form-label small">Teléfono</label>
                   <input 
                     type="tel" 
-                    className="form-control" 
+                    className="form-control form-control-sm" 
                     placeholder="+57 ..." 
                     value={telefono}
                     onChange={e => setTelefono(e.target.value)}
@@ -136,12 +153,12 @@ export default function Hero(){
                 </div>
 
                 <div className="col-12">
-                  <button type="submit" className="btn btn-brand w-100 rounded-pill">
+                  <button type="submit" className="btn btn-brand w-100 rounded-pill py-2">
                     Consultar
                   </button>
                 </div>
 
-                <p className="small text-muted m-0">
+                <p className="small text-muted m-0 text-center w-100">
                   Respuesta en menos de 1 hora.
                 </p>
               </form>

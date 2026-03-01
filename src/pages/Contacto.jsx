@@ -1,5 +1,9 @@
+import ContactCard from '../components/ContactCard.jsx'
+import { useContext } from 'react'
+import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Contacto() {
+  const { siteData } = useContext(AdminContext)
   return (
     <main className="py-5 bg-light-soft min-vh-100">
       <div className="container">
@@ -42,37 +46,11 @@ export default function Contacto() {
           </div>
 
           <div className="col-lg-5">
-            <div className="sticky-top" style={{ top: '100px' }}>
-              <div className="card border-0 bg-dark-blue text-white p-4 p-md-5 rounded-4 shadow-lg mb-4 animate-fade-in">
+            <div className="sticky-top" style={{ top: 'calc(var(--navbar-height, 70px) + 20px)' }}>
+              <div className="card border-0 bg-dark-blue text-white p-4 p-md-5 rounded-4 shadow-lg mb-4 animate-fade-in" style={{ position: 'relative', zIndex: 1 }}>
                 <h4 className="fw-bold mb-4">Información de Contacto</h4>
                 <div className="d-flex flex-column gap-4">
-                  <div className="d-flex align-items-center gap-4">
-                    <div className="bg-brand rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: 50, height: 50 }}>
-                      <i className="bi bi-whatsapp fs-4" />
-                    </div>
-                    <div>
-                      <p className="small text-white-50 m-0">Escríbenos por WhatsApp</p>
-                      <h6 className="m-0 fw-bold">+57 300 680 6697</h6>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-4">
-                    <div className="bg-brand rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: 50, height: 50 }}>
-                      <i className="bi bi-envelope fs-4" />
-                    </div>
-                    <div>
-                      <p className="small text-white-50 m-0">Envíanos un correo</p>
-                      <h6 className="m-0 fw-bold">hola@cabanaplaya.com</h6>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center gap-4">
-                    <div className="bg-brand rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: 50, height: 50 }}>
-                      <i className="bi bi-instagram fs-4" />
-                    </div>
-                    <div>
-                      <p className="small text-white-50 m-0">Síguenos en redes</p>
-                      <h6 className="m-0 fw-bold">@cabanaplaya_oficial</h6>
-                    </div>
-                  </div>
+                    <ContactCard />
                 </div>
               </div>
 

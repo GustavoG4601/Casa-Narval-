@@ -10,6 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 const DATA_PATH = path.join(__dirname, 'src', 'data', 'data.json')
+const REVIEWS_PATH = path.join(__dirname, 'src', 'data', 'reviews.json')
 const UPLOAD_DIR = path.join(__dirname, 'public', 'media')
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true })
 
@@ -56,6 +57,34 @@ app.post('/api/data', checkToken, (req, res) => {
   fs.writeFile(DATA_PATH, JSON.stringify(payload, null, 2), (err) => {
     if (err) return res.status(500).json({ ok: false })
     res.json({ ok: true })
+  })
+})
+
+app.get('/api/reviews', (req, res) => {
+  fs.readFile(REVIEWS_PATH, 'utf8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'no reviews' })
+    try { res.json(JSON.parse(data)) } catch (e) { res.status(500).json({ error: 'parse' }) }
+  })
+})
+
+app.post('/api/reviews', (req, res) => {
+  const newReview = req.body
+  if (!newReview.name || !newReview.text || newReview.rating === undefined) {
+    return res.status(400).json({ ok: false, error: 'datos incompletos' })
+  }
+  
+  fs.readFile(REVIEWS_PATH, 'utf8', (err, data) => {
+    let reviews = []
+    if (!err) {
+      try { reviews = JSON.parse(data) } catch (e) {}
+    }
+    
+    reviews.unshift(newReview)
+    
+    fs.writeFile(REVIEWS_PATH, JSON.stringify(reviews, null, 2), (writeErr) => {
+      if (writeErr) return res.status(500).json({ ok: false })
+      res.json({ ok: true })
+    })
   })
 })
 

@@ -1,0 +1,24 @@
+import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=7d6cf054"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=7d6cf054"; const React = __vite__cjsImport1_react.__esModule ? __vite__cjsImport1_react.default : __vite__cjsImport1_react;
+import __vite__cjsImport2_reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=535c7f43"; const createRoot = __vite__cjsImport2_reactDom_client["createRoot"];
+import { BrowserRouter } from "/node_modules/.vite/deps/react-router-dom.js?v=cffe1777";
+import App from "/src/App.jsx";
+import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
+import "/src/styles/custom.css";
+createRoot(document.getElementById("root")).render(
+  /* @__PURE__ */ jsxDEV(React.StrictMode, { children: /* @__PURE__ */ jsxDEV(BrowserRouter, { children: /* @__PURE__ */ jsxDEV(App, {}, void 0, false, {
+    fileName: "C:/Users/ACER/Desktop/cabana-beach-site/src/main.jsx",
+    lineNumber: 12,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/ACER/Desktop/cabana-beach-site/src/main.jsx",
+    lineNumber: 11,
+    columnNumber: 5
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/ACER/Desktop/cabana-beach-site/src/main.jsx",
+    lineNumber: 10,
+    columnNumber: 3
+  }, this)
+);
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBV007QUFWTixPQUFPQSxXQUFXO0FBQ2xCLFNBQVNDLGtCQUFrQjtBQUMzQixTQUFTQyxxQkFBcUI7QUFDOUIsT0FBT0MsU0FBUztBQUNoQixPQUFPO0FBQ1AsT0FBTztBQUVQRixXQUFXRyxTQUFTQyxlQUFlLE1BQU0sQ0FBQyxFQUFFQztBQUFBQSxFQUMxQyx1QkFBQyxNQUFNLFlBQU4sRUFDQyxpQ0FBQyxpQkFDQyxpQ0FBQyxTQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FBSSxLQUROO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FFQSxLQUhGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FJQTtBQUNGIiwibmFtZXMiOlsiUmVhY3QiLCJjcmVhdGVSb290IiwiQnJvd3NlclJvdXRlciIsIkFwcCIsImRvY3VtZW50IiwiZ2V0RWxlbWVudEJ5SWQiLCJyZW5kZXIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsibWFpbi5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiXG5pbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnXG5pbXBvcnQgeyBjcmVhdGVSb290IH0gZnJvbSAncmVhY3QtZG9tL2NsaWVudCdcbmltcG9ydCB7IEJyb3dzZXJSb3V0ZXIgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJ1xuaW1wb3J0IEFwcCBmcm9tICcuL0FwcC5qc3gnXG5pbXBvcnQgJ2Jvb3RzdHJhcC1pY29ucy9mb250L2Jvb3RzdHJhcC1pY29ucy5jc3MnXG5pbXBvcnQgJy4vc3R5bGVzL2N1c3RvbS5jc3MnXG5cbmNyZWF0ZVJvb3QoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvb3QnKSkucmVuZGVyKFxuICA8UmVhY3QuU3RyaWN0TW9kZT5cbiAgICA8QnJvd3NlclJvdXRlcj5cbiAgICAgIDxBcHAgLz5cbiAgICA8L0Jyb3dzZXJSb3V0ZXI+XG4gIDwvUmVhY3QuU3RyaWN0TW9kZT5cbilcbiJdLCJmaWxlIjoiQzovVXNlcnMvQUNFUi9EZXNrdG9wL2NhYmFuYS1iZWFjaC1zaXRlL3NyYy9tYWluLmpzeCJ9

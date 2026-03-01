@@ -1,16 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReviewCard from "../components/ReviewCard.jsx";
 
 const sample = [
-  { name: "Carolina", date: "2025-05", text: "La cabaña es espectacular, súper limpia y con una vista soñada.", rating: 5.0 },
-  { name: "Daniel", date: "2025-03", text: "Anfitriones atentos. A 3 min de la playa. Volveré.", rating: 4.5 },
-  { name: "Laura", date: "2025-02", text: "Todo tal cual las fotos. La terraza es lo mejor.", rating: 5.0 },
-  { name: "Sofía", date: "2025-01", text: "Camas cómodas y Wi-Fi rápido, perfecto para teletrabajo.", rating: 4.8 },
+  { name: "Carolina", date: "2025-05", text: "La cabaña es espectacular, súper limpia y con una vista soñada.", rating: 5 },
+  { name: "Daniel", date: "2025-03", text: "Anfitriones atentos. A 3 min de la playa. Volveré.", rating: 5 },
+  { name: "Laura", date: "2025-02", text: "Todo tal cual las fotos. La terraza es lo mejor.", rating: 5 },
+  { name: "Sofía", date: "2025-01", text: "Camas cómodas y Wi-Fi rápido, perfecto para teletrabajo.", rating: 5 },
 ];
 
 export default function Resenas() {
   const [reviews, setReviews] = useState(sample);
   const [form, setForm] = useState({ name: "", text: "", rating: 5 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Cargar reseñas desde el servidor
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(data => {
+        setReviews(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error cargando reseñas:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,11 +40,23 @@ export default function Resenas() {
       name: form.name,
       date: new Date().toISOString().slice(0, 7),
       text: form.text,
-      rating: parseFloat(form.rating),
+      rating: parseInt(form.rating),
     };
 
-    setReviews([newReview, ...reviews]);
-    setForm({ name: "", text: "", rating: 5 });
+    // Enviar al servidor
+    fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newReview)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          setReviews([newReview, ...reviews]);
+          setForm({ name: "", text: "", rating: 5 });
+        }
+      })
+      .catch(err => console.error('Error guardando reseña:', err));
   };
 
   const avg = reviews.length
@@ -68,7 +95,7 @@ export default function Resenas() {
 
           {/* Formulario Lateral */}
           <div className="col-lg-4 order-1 order-lg-2">
-            <div className="sticky-top" style={{ top: '100px' }}>
+            <div className="sticky-top" style={{ top: 'calc(var(--navbar-height, 70px) + 20px)' }}>
               <div className="card border-0 shadow-sm rounded-4 p-4 animate-fade-in">
                 <h5 className="fw-bold mb-3 text-dark-blue">¿Te hospedaste con nosotros?</h5>
                 <p className="small text-muted mb-4">Tu opinión es muy valiosa para nosotros y para futuros viajeros.</p>

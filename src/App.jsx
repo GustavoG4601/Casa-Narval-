@@ -1,9 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import AdminContext, { AdminProvider } from './context/AdminContext.jsx'
 import AdminPanel from './components/AdminPanel.jsx'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Home from './pages/Home.jsx'
 import Galeria from './pages/Galeria.jsx'
@@ -16,6 +16,11 @@ import Politicas from './pages/Politicas.jsx'
 
 function AppRoutes() {
   const { siteData, loading } = useContext(AdminContext)
+  const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   if (loading && !siteData) {
     return (

@@ -1,6 +1,7 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
 import { Link, useNavigate } from 'react-router-dom'
+import { useToast, ToastContainer } from './Toast.jsx'
 
 export default function AdminPanel() {
   const { isAdmin, login, logout, siteData, saveData, uploadImage, reload } = useContext(AdminContext)
@@ -11,6 +12,9 @@ export default function AdminPanel() {
   const [form, setForm] = useState(null)
   const [uploading, setUploading] = useState(false)
   const navigate = useNavigate()
+  const { toasts, showToast, removeToast } = useToast()
+  const fileInputRefs = useRef({})
+  const galleryFileRefs = useRef({})
 
   useEffect(() => {
     if (isAdmin) setStage('editor')
@@ -22,7 +26,7 @@ export default function AdminPanel() {
     e.preventDefault()
     const ok = await login(user, pass)
     if (ok) setStage('editor')
-    else alert('Credenciales incorrectas')
+    else showToast('Usuario o contraseña incorrectos', 'error')
   }
 
   const handleChange = (path, value) => {
@@ -47,8 +51,9 @@ export default function AdminPanel() {
     setUploading(false)
     if (res?.ok && res.path) {
       handleChange(path, res.path)
+      showToast('Imagen subida correctamente', 'success')
     } else {
-      alert('Error subiendo imagen')
+      showToast('Error al subir la imagen. Intenta de nuevo', 'error')
     }
   }
 
@@ -64,7 +69,10 @@ export default function AdminPanel() {
       if (session) {
         session.images.push({ src: res.path, title: 'Nueva foto' })
         setForm(nextForm)
+        showToast('Foto anadida a la galeria', 'success')
       }
+    } else {
+      showToast('Error al subir la foto. Intenta de nuevo', 'error')
     }
   }
 
@@ -80,9 +88,9 @@ export default function AdminPanel() {
   const handleSave = async () => {
     const ok = await saveData(form)
     if (ok) {
-      alert('Cambios guardados con éxito')
+      showToast('Cambios guardados con éxito', 'success')
       reload()
-    } else alert('Error al guardar')
+    } else showToast('Error al guardar los cambios. Intenta de nuevo', 'error')
   }
 
   const handleLogout = () => {
@@ -96,6 +104,30 @@ export default function AdminPanel() {
     const newItem = { icon: 'star', title: 'Nuevo Servicio', text: 'Descripción breve' }
     if (!nextForm[type]) nextForm[type] = []
     nextForm[type].push(newItem)
+    setForm(nextForm)
+  }
+
+  // Plan includes handlers
+  const addInclude = (planIndex) => {
+    const nextForm = JSON.parse(JSON.stringify(form))
+    if (!nextForm.plans) nextForm.plans = []
+    if (!nextForm.plans[planIndex].includes) nextForm.plans[planIndex].includes = []
+    nextForm.plans[planIndex].includes.push('Nuevo incluido')
+    setForm(nextForm)
+  }
+
+  const removeInclude = (planIndex, idx) => {
+    const nextForm = JSON.parse(JSON.stringify(form))
+    if (nextForm.plans && nextForm.plans[planIndex] && nextForm.plans[planIndex].includes) {
+      nextForm.plans[planIndex].includes.splice(idx, 1)
+      setForm(nextForm)
+    }
+  }
+
+  const changeInclude = (planIndex, idx, value) => {
+    const nextForm = JSON.parse(JSON.stringify(form))
+    if (!nextForm.plans[planIndex].includes) nextForm.plans[planIndex].includes = []
+    nextForm.plans[planIndex].includes[idx] = value
     setForm(nextForm)
   }
 
@@ -128,6 +160,7 @@ export default function AdminPanel() {
 
   return (
     <div className="bg-light min-vh-100 py-5">
+      <ToastContainer toasts={toasts} onClose={removeToast} />
       <div className="container" style={{ maxWidth: '1000px' }}>
 
         {/* Header */}
@@ -210,9 +243,22 @@ export default function AdminPanel() {
                         <div className="mb-4">
                           <label className="form-label small fw-bold">Imagen Home Destacada</label>
                           <div className="d-flex gap-3 align-items-end">
-                            <img src={form.home?.featureImage} className="rounded-3 shadow-sm" style={{ width: 120, height: 80, objectFit: 'cover' }} />
-                            <input type="file" className="form-control" onChange={e => handleImage(e, 'home.featureImage')} />
+                            <img src={form.home?.featureImage} className="rounded-3 shadow-sm" style={{ width: 120, height: 80, objectFit: 'cover' }} alt="imagen destacada" loading="lazy" />
+                            <input type="file" className="form-control" onChange={e => handleImage(e, 'home.featureImage')} accept="image/*" />
                           </div>
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">Título Ubicación</label>
+                          <input className="form-control" value={form.location?.title || ''} onChange={e => handleChange('location.title', e.target.value)} />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">Descripción Ubicación</label>
+                          <textarea className="form-control" rows={3} value={form.location?.description || ''} onChange={e => handleChange('location.description', e.target.value)} />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">URL del Mapa (embed)</label>
+                          <input className="form-control" value={form.location?.mapUrl || ''} onChange={e => handleChange('location.mapUrl', e.target.value)} placeholder="https://www.google.com/maps/embed?..." />
+                          <div className="form-text small">Usa la URL de "insertar mapa" de Google Maps, no el enlace compartido.</div>
                         </div>
                       </div>
                     )}
@@ -247,10 +293,16 @@ export default function AdminPanel() {
                                 <div className="col-lg-6">
                                   <label className="small fw-bold text-muted mb-2">Imagen de Portada (Miniatura)</label>
                                   <div className="d-flex gap-3 align-items-center">
-                                    <img src={session.mainImage} className="rounded-3 shadow-sm border" style={{ width: 80, height: 50, objectFit: 'cover' }} alt="portada" />
-                                    <div className="flex-grow-1 position-relative">
-                                      <button className="btn btn-sm btn-outline-info w-100 rounded-2 py-2">{uploading ? 'Cargando...' : 'Cambiar Portada'}</button>
-                                      <input type="file" className="position-absolute inset-0 opacity-0 cursor-pointer" onChange={e => handleImage(e, `sessions.${sIdx}.mainImage`)} />
+                                    <img src={session.mainImage} className="rounded-3 shadow-sm border" style={{ width: 80, height: 50, objectFit: 'cover' }} alt="portada" loading="lazy" />
+                                    <div className="flex-grow-1">
+                                      <button type="button" onClick={() => fileInputRefs.current[`main-${session.id}`]?.click()} className="btn btn-sm btn-outline-info w-100 rounded-2 py-2" disabled={uploading}>{uploading ? 'Cargando...' : 'Cambiar Portada'}</button>
+                                      <input 
+                                        ref={el => fileInputRefs.current[`main-${session.id}`] = el}
+                                        type="file" 
+                                        className="d-none" 
+                                        onChange={e => handleImage(e, `sessions.${sIdx}.mainImage`)} 
+                                        accept="image/*"
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -259,9 +311,15 @@ export default function AdminPanel() {
                               <div className="mt-4 pt-4 border-top">
                                 <div className="d-flex justify-content-between align-items-center mb-3">
                                   <h6 className="m-0 fw-bold text-muted"><i className="bi bi-images me-2" />Fotos en esta sesión ({session.images.length})</h6>
-                                  <div className="position-relative">
-                                    <button className="btn btn-sm btn-info text-white rounded-pill px-4 shadow-sm">{uploading ? 'Subiendo...' : '+ Añadir Fotos'}</button>
-                                    <input type="file" className="position-absolute inset-0 opacity-0 cursor-pointer" onChange={e => handleAddGalleryImage(e, session.id)} disabled={uploading} />
+                                  <div>
+                                    <button type="button" onClick={() => galleryFileRefs.current[`gallery-${session.id}`]?.click()} className="btn btn-sm btn-info text-white rounded-pill px-4 shadow-sm" disabled={uploading}>{uploading ? 'Subiendo...' : '+ Añadir Fotos'}</button>
+                                    <input 
+                                      ref={el => galleryFileRefs.current[`gallery-${session.id}`] = el}
+                                      type="file" 
+                                      className="d-none" 
+                                      onChange={e => handleAddGalleryImage(e, session.id)} 
+                                      accept="image/*"
+                                    />
                                   </div>
                                 </div>
                                 <div className="gallery-admin-grid">
@@ -360,9 +418,28 @@ export default function AdminPanel() {
                                 <label className="form-label small fw-bold">Descripción Corta</label>
                                 <input className="form-control bg-white" value={plan.desc} onChange={e => handleChange(`plans.${i}.desc`, e.target.value)} />
                               </div>
+                                <div className="col-12">
+                                  <label className="form-label small fw-bold">Incluye</label>
+                                  { (plan.includes || []).map((inc, idx) => (
+                                    <div key={idx} className="d-flex gap-2 mb-2 align-items-center">
+                                      <input className="form-control form-control-sm" value={inc} onChange={e => changeInclude(i, idx, e.target.value)} />
+                                      <button type="button" onClick={() => removeInclude(i, idx)} className="btn btn-sm btn-outline-danger">✕</button>
+                                    </div>
+                                  ))}
+                                  <div>
+                                    <button type="button" onClick={() => addInclude(i)} className="btn btn-sm btn-outline-success">+ Añadir incluido</button>
+                                  </div>
+                                </div>
+
                             </div>
                           </div>
                         ))}
+
+                          {/* WhatsApp de reserva: campo global en precios */}
+                          <div className="card p-3 mb-3 border-0 bg-white rounded-4">
+                            <label className="form-label small fw-bold">Número WhatsApp para "Reservar" (ej. 573006806697)</label>
+                            <input className="form-control" value={form.contact?.whatsapp || ''} onChange={e => handleChange('contact.whatsapp', e.target.value)} placeholder="Código país + número, sin +" />
+                          </div>
                       </div>
                     )}
 

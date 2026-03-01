@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Gustavo",
+    "date": "2026-03",
+    "text": "Estuvo bien.",
+    "rating": 4
+  },
+  {
+    "name": "Carolina",
+    "date": "2025-05",
+    "text": "La cabaña es espectacular, súper limpia y con una vista soñada.",
+    "rating": 5
+  },
+  {
+    "name": "Daniel",
+    "date": "2025-03",
+    "text": "Anfitriones atentos. A 3 min de la playa. Volveré.",
+    "rating": 5
+  },
+  {
+    "name": "Laura",
+    "date": "2025-02",
+    "text": "Todo tal cual las fotos. La terraza es lo mejor.",
+    "rating": 5
+  },
+  {
+    "name": "Sofía",
+    "date": "2025-01",
+    "text": "Camas cómodas y Wi-Fi rápido, perfecto para teletrabajo.",
+    "rating": 5
+  }
+]

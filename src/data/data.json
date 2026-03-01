@@ -4,14 +4,14 @@
     "subtitle": "Despierta con el sonido de las olas, camina 3 minutos a la playa y disfruta de una estancia cómoda con espacios pensados para descansar."
   },
   "home": {
-    "featureImage": "https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/94870e90-3379-406e-85c8-b5b0800f0e27.jpeg?im_w=1440",
+    "featureImage": "/media/mm7zf3mu-dgpnkj4cyfb.avif",
     "heading": "Espacios pensados para desconectar",
     "paragraph": "Dormitorios luminosos, sala abierta, cocina equipada y una terraza perfecta para asados y atardeceres."
   },
   "sessions": [
     {
       "id": "sesion-1",
-      "title": "Exteriores y Vistas",
+      "title": "Exteriores y Vistass",
       "mainImage": "https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/171b0c0e-fb38-4f03-8969-7564a2d54c07.jpeg?im_w=1440",
       "images": [
         {
@@ -19,16 +19,8 @@
           "title": "Vista aérea de la cabaña"
         },
         {
-          "src": "/media/hero-main.jpg",
-          "title": "Vista principal"
-        },
-        {
-          "src": "/media/1.jpg",
-          "title": "Piscina con vista al mar"
-        },
-        {
-          "src": "/media/2.jpg",
-          "title": "Entrada a la cabaña"
+          "src": "/media/mm7zymjd-mijonnaz4c.png",
+          "title": "Nueva foto"
         }
       ]
     },
@@ -52,10 +44,6 @@
         {
           "src": "https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/57761a98-b467-4abf-9e42-230d7e78e5ab.jpeg?im_w=1440",
           "title": "Zona social"
-        },
-        {
-          "src": "/media/4.jpg",
-          "title": "Baño moderno"
         }
       ]
     },
@@ -67,14 +55,6 @@
         {
           "src": "https://a0.muscache.com/im/pictures/hosting/Hosting-1163129382105020404/original/7b02e9a0-ef97-4c72-acc7-0f501cbe2a09.jpeg?im_w=1440",
           "title": "Terraza al atardecer"
-        },
-        {
-          "src": "/media/3.jpg",
-          "title": "Balcón privado"
-        },
-        {
-          "src": "/media/5.jpg",
-          "title": "Detalle de decoración"
         }
       ]
     }
@@ -85,7 +65,7 @@
       "desc": "De lunes a jueves, excepto festivos.",
       "price": 250000,
       "includes": [
-        "Hasta 4 huéspedes",
+        "Hasta 15 huéspedes",
         "Limpieza incluida",
         "Estacionamiento"
       ]
@@ -214,5 +194,13 @@
       "title": "Servicios imprescindibles",
       "text": "Algunos servicios básicos no están disponibles."
     }
-  ]
+  ],
+  "contact": {
+    "whatsapp": "573046601648"
+  },
+  "location": {
+    "title": "Ubicación real",
+    "description": "Cerca de tus sueños",
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.9451658032676!2d-75.55209332542137!3d10.425926189702324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f26fd2d33ff%3A0x72f39b89db9a4b40!2sUniversidad%20de%20Cartagena!5e0!3m2!1ses!2sco!4v1772386275873!5m2!1ses!2sco\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+  }
 }
