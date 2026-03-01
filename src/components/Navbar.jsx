@@ -1,11 +1,23 @@
-import { Link, NavLink } from 'react-router-dom'
-import { useContext, useRef } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useContext, useRef, useState, useEffect } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
 
 export default function Navbar() {
   const { isAdmin } = useContext(AdminContext)
+  const location = useLocation()
   const navbarToggleRef = useRef(null)
   const navbarCollapseRef = useRef(null)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const isHome = location.pathname === '/'
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleNavLinkClick = () => {
     if (window.innerWidth < 992) {
@@ -15,7 +27,11 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3">
+    <nav className={`navbar navbar-expand-lg border-bottom sticky-top py-3 transition-all ${
+      isHome 
+        ? (isScrolled ? 'bg-white shadow-sm' : 'bg-transparent')
+        : 'bg-white'
+    }`}>
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
           <div className="bg-brand rounded-3 p-1 d-flex align-items-center justify-content-center" style={{ width: 34, height: 34 }}>
