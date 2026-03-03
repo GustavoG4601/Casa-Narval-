@@ -1,21 +1,28 @@
 import { Link } from 'react-router-dom'
 import { useState, useContext, useEffect } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import { es } from 'date-fns/locale'
+import { addDays, format, parseISO } from 'date-fns'
+import 'react-datepicker/dist/react-datepicker.css'
 
-export default function Hero(){
-  const [checkin, setCheckin] = useState('')
-  const [checkout, setCheckout] = useState('')
+registerLocale('es', es)
+
+export default function Hero() {
+  const [checkin, setCheckin] = useState(null)
+  const [checkout, setCheckout] = useState(null)
   const [huespedes, setHuespedes] = useState(2)
   const [telefono, setTelefono] = useState('')
   const [avgRating, setAvgRating] = useState(4.95)
   const [totalReviews, setTotalReviews] = useState(120)
+  const [busyDates, setBusyDates] = useState([])
   const { siteData } = useContext(AdminContext)
 
   useEffect(() => {
     fetch('/api/reviews')
       .then(res => res.json())
       .then(reviews => {
-        const avg = reviews.length > 0 
+        const avg = reviews.length > 0
           ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(2)
           : 4.95
         setAvgRating(avg)
@@ -24,25 +31,42 @@ export default function Hero(){
       .catch(err => console.error('Error cargando reseñas:', err))
   }, [])
 
+  // Sync Calendar
+  useEffect(() => {
+    const calendarId = siteData?.calendar?.publicId
+    if (calendarId) {
+      fetch(`/api/calendar?id=${encodeURIComponent(calendarId)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.busy) {
+            const parsed = data.busy.map(d => parseISO(d))
+            setBusyDates(parsed)
+          }
+        })
+        .catch(err => console.error('Error syncing calendar:', err))
+    }
+  }, [siteData?.calendar?.publicId])
+
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (!checkin || !checkout) return alert('Por favor selecciona las fechas')
 
     const mensaje = `
       ¡Hola! Quisiera consultar la disponibilidad para las siguientes fechas:
-      - Check-in: ${checkin}
-      - Check-out: ${checkout}
+      - Check-in: ${format(checkin, 'yyyy-MM-dd')}
+      - Check-out: ${format(checkout, 'yyyy-MM-dd')}
       - Huéspedes: ${huespedes}
       - Mi teléfono es: ${telefono}
     `
 
-    const waNumber = siteData?.contact?.whatsapp || '573006806697'
+    const waNumber = siteData?.contact?.whatsapp || '573046601648'
     const cleanNumber = String(waNumber).replace(/^\+/, '').replace(/\s+/g, '')
     const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(mensaje)}`
     window.open(url, '_blank')
   }
 
   return (
-    <section 
+    <section
       className="d-flex align-items-center text-white position-relative"
       style={{
         minHeight: "100vh",
@@ -51,7 +75,7 @@ export default function Hero(){
     >
       {/* VIDEO DE FONDO */}
       <video
-        src="/public/media/fondo.mp4"
+        src="/media/fondo.mp4"
         autoPlay
         muted
         loop
@@ -102,63 +126,88 @@ export default function Hero(){
           </div>
 
           <div className="col-lg-5 mt-4 mt-lg-0">
-            <div className="card p-3 p-sm-4 position-relative">
+            <div className="card p-3 p-sm-4 position-relative border-0 shadow-lg booking-card">
               <div className="pricing-badge">
                 <i className="bi bi-star-fill me-1" />{avgRating} / {totalReviews} reseñas
               </div>
 
-              <h5 className="fw-semibold">Reserva rápida</h5>
+              <h5 className="fw-semibold mb-1 text-dark">Reserva rápida</h5>
+              <p className="small text-muted mb-3">Bloquea tus fechas preferidas</p>
 
-              <form className="row g-2 g-sm-3 mt-1" onSubmit={handleSubmit}>
-                <div className="col-12">
-                  <label className="form-label small">Check-in</label>
-                  <input 
-                    type="date" 
-                    className="form-control form-control-sm" 
-                    value={checkin}
-                    onChange={e => setCheckin(e.target.value)}
+              <form className="row g-3" onSubmit={handleSubmit}>
+                <div className="col-6">
+                  <label className="form-label small text-muted mb-1">Check-in</label>
+                  <DatePicker
+                    selected={checkin}
+                    onChange={date => setCheckin(date)}
+                    selectsStart
+                    startDate={checkin}
+                    endDate={checkout}
+                    minDate={new Date()}
+                    excludeDates={busyDates}
+                    placeholderText="Fecha entrada"
+                    className="form-control form-control-sm"
+                    locale="es"
+                    dateFormat="dd/MM/yyyy"
+                    required
+                  />
+                </div>
+
+                <div className="col-6">
+                  <label className="form-label small text-muted mb-1">Check-out</label>
+                  <DatePicker
+                    selected={checkout}
+                    onChange={date => setCheckout(date)}
+                    selectsEnd
+                    startDate={checkin}
+                    endDate={checkout}
+                    minDate={checkin || new Date()}
+                    excludeDates={busyDates}
+                    placeholderText="Fecha salida"
+                    className="form-control form-control-sm"
+                    locale="es"
+                    dateFormat="dd/MM/yyyy"
+                    required
                   />
                 </div>
 
                 <div className="col-12">
-                  <label className="form-label small">Check-out</label>
-                  <input 
-                    type="date" 
-                    className="form-control form-control-sm" 
-                    value={checkout}
-                    onChange={e => setCheckout(e.target.value)}
-                  />
+                  <label className="form-label small text-muted mb-1">Huéspedes</label>
+                  <div className="input-group input-group-sm">
+                    <span className="input-group-text bg-white"><i className="bi bi-people" /></span>
+                    <input
+                      type="number"
+                      min="1"
+                      max="20"
+                      className="form-control"
+                      value={huespedes}
+                      onChange={e => setHuespedes(e.target.value)}
+                    />
+                  </div>
                 </div>
 
                 <div className="col-12">
-                  <label className="form-label small">Huéspedes</label>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    className="form-control form-control-sm" 
-                    value={huespedes}
-                    onChange={e => setHuespedes(e.target.value)}
-                  />
+                  <label className="form-label small text-muted mb-1">Teléfono</label>
+                  <div className="input-group input-group-sm">
+                    <span className="input-group-text bg-white"><i className="bi bi-whatsapp" /></span>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      placeholder="+57 ..."
+                      value={telefono}
+                      onChange={e => setTelefono(e.target.value)}
+                    />
+                  </div>
                 </div>
 
-                <div className="col-12">
-                  <label className="form-label small">Teléfono</label>
-                  <input 
-                    type="tel" 
-                    className="form-control form-control-sm" 
-                    placeholder="+57 ..." 
-                    value={telefono}
-                    onChange={e => setTelefono(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-12">
-                  <button type="submit" className="btn btn-brand w-100 rounded-pill py-2">
-                    Consultar
+                <div className="col-12 pt-2">
+                  <button type="submit" className="btn btn-brand w-100 rounded-pill py-2 fw-bold shadow-sm">
+                    Consultar Disponibilidad
                   </button>
                 </div>
 
                 <p className="small text-muted m-0 text-center w-100">
+                  <i className="bi bi-lightning-fill text-warning me-1"></i>
                   Respuesta en menos de 1 hora.
                 </p>
               </form>

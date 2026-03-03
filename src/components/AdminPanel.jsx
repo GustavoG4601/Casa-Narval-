@@ -4,13 +4,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useToast, ToastContainer } from './Toast.jsx'
 
 export default function AdminPanel() {
-  const { isAdmin, login, logout, siteData, saveData, uploadImage, reload } = useContext(AdminContext)
+  const { isAdmin, login, logout, siteData, saveData, uploadImage, reload, changePassword } = useContext(AdminContext)
   const [stage, setStage] = useState('login')
   const [activeTab, setActiveTab] = useState('general')
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [form, setForm] = useState(null)
   const [uploading, setUploading] = useState(false)
+  const [passForm, setPassForm] = useState({ oldPass: '', newPass: '', confirmPass: '' })
   const navigate = useNavigate()
   const { toasts, showToast, removeToast } = useToast()
   const fileInputRefs = useRef({})
@@ -158,6 +159,21 @@ export default function AdminPanel() {
     setForm(nextForm)
   }
 
+  const handlePasswordChange = async (e) => {
+    e.preventDefault()
+    if (passForm.newPass !== passForm.confirmPass) {
+      showToast('Las contraseñas nuevas no coinciden', 'error')
+      return
+    }
+    const res = await changePassword(passForm.oldPass, passForm.newPass)
+    if (res.ok) {
+      showToast('Contraseña actualizada correctamente', 'success')
+      setPassForm({ oldPass: '', newPass: '', confirmPass: '' })
+    } else {
+      showToast(res.error || 'Error al cambiar la contraseña', 'error')
+    }
+  }
+
   return (
     <div className="bg-light min-vh-100 py-5">
       <ToastContainer toasts={toasts} onClose={removeToast} />
@@ -196,7 +212,7 @@ export default function AdminPanel() {
           <div className="row g-4">
             {/* Nav */}
             <div className="col-md-3">
-              <div className="bg-white p-3 rounded-4 shadow-sm sticky-top" style={{ top: '20px' }}>
+              <div className="bg-white p-3 rounded-4 shadow-sm border-0 mb-4 animate-fade-in">
                 <div
                   className={`p-3 rounded-3 mb-2 cursor-pointer transition-all ${activeTab === 'general' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
                   onClick={() => setActiveTab('general')}
@@ -216,10 +232,22 @@ export default function AdminPanel() {
                   <i className="bi bi-list-check me-2" /> Servicios
                 </div>
                 <div
-                  className={`p-3 rounded-3 cursor-pointer transition-all ${activeTab === 'prices' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
+                  className={`p-3 rounded-3 mb-2 cursor-pointer transition-all ${activeTab === 'prices' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
                   onClick={() => setActiveTab('prices')}
                 >
                   <i className="bi bi-tag-fill me-2" /> Precios
+                </div>
+                <div
+                  className={`p-3 rounded-3 mb-2 cursor-pointer transition-all ${activeTab === 'contact' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
+                  onClick={() => setActiveTab('contact')}
+                >
+                  <i className="bi bi-person-rolodex me-2" /> Contacto
+                </div>
+                <div
+                  className={`p-3 rounded-3 cursor-pointer transition-all ${activeTab === 'settings' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
+                  onClick={() => setActiveTab('settings')}
+                >
+                  <i className="bi bi-shield-lock-fill me-2" /> Ajustes
                 </div>
               </div>
             </div>
@@ -296,11 +324,11 @@ export default function AdminPanel() {
                                     <img src={session.mainImage} className="rounded-3 shadow-sm border" style={{ width: 80, height: 50, objectFit: 'cover' }} alt="portada" loading="lazy" />
                                     <div className="flex-grow-1">
                                       <button type="button" onClick={() => fileInputRefs.current[`main-${session.id}`]?.click()} className="btn btn-sm btn-outline-info w-100 rounded-2 py-2" disabled={uploading}>{uploading ? 'Cargando...' : 'Cambiar Portada'}</button>
-                                      <input 
+                                      <input
                                         ref={el => fileInputRefs.current[`main-${session.id}`] = el}
-                                        type="file" 
-                                        className="d-none" 
-                                        onChange={e => handleImage(e, `sessions.${sIdx}.mainImage`)} 
+                                        type="file"
+                                        className="d-none"
+                                        onChange={e => handleImage(e, `sessions.${sIdx}.mainImage`)}
                                         accept="image/*"
                                       />
                                     </div>
@@ -313,11 +341,11 @@ export default function AdminPanel() {
                                   <h6 className="m-0 fw-bold text-muted"><i className="bi bi-images me-2" />Fotos en esta sesión ({session.images.length})</h6>
                                   <div>
                                     <button type="button" onClick={() => galleryFileRefs.current[`gallery-${session.id}`]?.click()} className="btn btn-sm btn-info text-white rounded-pill px-4 shadow-sm" disabled={uploading}>{uploading ? 'Subiendo...' : '+ Añadir Fotos'}</button>
-                                    <input 
+                                    <input
                                       ref={el => galleryFileRefs.current[`gallery-${session.id}`] = el}
-                                      type="file" 
-                                      className="d-none" 
-                                      onChange={e => handleAddGalleryImage(e, session.id)} 
+                                      type="file"
+                                      className="d-none"
+                                      onChange={e => handleAddGalleryImage(e, session.id)}
                                       accept="image/*"
                                     />
                                   </div>
@@ -343,12 +371,9 @@ export default function AdminPanel() {
                       </div>
                     )}
 
-
                     {activeTab === 'services' && (
                       <div className="animate-fade-in">
                         <h5 className="fw-bold mb-4 border-bottom pb-2 text-dark-blue">Gestión de Servicios</h5>
-
-                        {/* Disponibles */}
                         <div className="mb-4">
                           <div className="d-flex justify-content-between align-items-center mb-3">
                             <h6 className="fw-bold m-0 text-success">Disponibles</h6>
@@ -374,8 +399,6 @@ export default function AdminPanel() {
                             </div>
                           ))}
                         </div>
-
-                        {/* No Disponibles */}
                         <div>
                           <div className="d-flex justify-content-between align-items-center mb-3">
                             <h6 className="fw-bold m-0 text-danger">No Disponibles</h6>
@@ -418,28 +441,106 @@ export default function AdminPanel() {
                                 <label className="form-label small fw-bold">Descripción Corta</label>
                                 <input className="form-control bg-white" value={plan.desc} onChange={e => handleChange(`plans.${i}.desc`, e.target.value)} />
                               </div>
-                                <div className="col-12">
-                                  <label className="form-label small fw-bold">Incluye</label>
-                                  { (plan.includes || []).map((inc, idx) => (
-                                    <div key={idx} className="d-flex gap-2 mb-2 align-items-center">
-                                      <input className="form-control form-control-sm" value={inc} onChange={e => changeInclude(i, idx, e.target.value)} />
-                                      <button type="button" onClick={() => removeInclude(i, idx)} className="btn btn-sm btn-outline-danger">✕</button>
-                                    </div>
-                                  ))}
-                                  <div>
-                                    <button type="button" onClick={() => addInclude(i)} className="btn btn-sm btn-outline-success">+ Añadir incluido</button>
+                              <div className="col-12">
+                                <label className="form-label small fw-bold">Incluye</label>
+                                {(plan.includes || []).map((inc, idx) => (
+                                  <div key={idx} className="d-flex gap-2 mb-2 align-items-center">
+                                    <input className="form-control form-control-sm" value={inc} onChange={e => changeInclude(i, idx, e.target.value)} />
+                                    <button type="button" onClick={() => removeInclude(i, idx)} className="btn btn-sm btn-outline-danger">✕</button>
                                   </div>
+                                ))}
+                                <div>
+                                  <button type="button" onClick={() => addInclude(i)} className="btn btn-sm btn-outline-success">+ Añadir incluido</button>
                                 </div>
-
+                              </div>
                             </div>
                           </div>
                         ))}
 
-                          {/* WhatsApp de reserva: campo global en precios */}
-                          <div className="card p-3 mb-3 border-0 bg-white rounded-4">
-                            <label className="form-label small fw-bold">Número WhatsApp para "Reservar" (ej. 573006806697)</label>
-                            <input className="form-control" value={form.contact?.whatsapp || ''} onChange={e => handleChange('contact.whatsapp', e.target.value)} placeholder="Código país + número, sin +" />
+                        <div className="card p-4 mb-4 border-0 shadow-sm rounded-4 bg-white">
+                          <h6 className="fw-bold mb-3"><i className="bi bi-calendar3 me-2" />Configuración de Calendario</h6>
+                          <div className="mb-3">
+                            <label className="form-label small fw-bold">Google Calendar Embed URL</label>
+                            <input
+                              className="form-control bg-light border-0"
+                              value={form.calendar?.embedUrl || ''}
+                              onChange={e => handleChange('calendar.embedUrl', e.target.value)}
+                              placeholder="https://calendar.google.com/calendar/embed?src=..."
+                            />
+                            <div className="form-text small text-muted">Aparecerá en la sección de precios para que los clientes vean los días ocupados.</div>
                           </div>
+                          <div className="mb-0">
+                            <label className="form-label small fw-bold">Google Calendar ID (Público)</label>
+                            <input
+                              className="form-control bg-light border-0"
+                              value={form.calendar?.publicId || ''}
+                              onChange={e => handleChange('calendar.publicId', e.target.value)}
+                              placeholder="tu-id-de-calendario@group.v.calendar.google.com"
+                            />
+                            <div className="form-text small text-muted">Se usa para sincronizar automáticamente el formulario de reserva.</div>
+                          </div>
+                        </div>
+
+                        <div className="card p-3 mb-3 border-0 bg-white rounded-4 shadow-sm">
+                          <label className="form-label small fw-bold">Número WhatsApp para "Reservar"</label>
+                          <input className="form-control bg-light border-0" value={form.contact?.whatsapp || ''} onChange={e => handleChange('contact.whatsapp', e.target.value)} placeholder="Código país + número" />
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'contact' && (
+                      <div className="animate-fade-in">
+                        <h5 className="fw-bold mb-4 border-bottom pb-2">Información de Contacto</h5>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">WhatsApp (Solo números y +)</label>
+                          <input className="form-control" value={form.contact?.whatsapp || ''} onChange={e => handleChange('contact.whatsapp', e.target.value)} placeholder="+57300..." />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">Correo Electrónico</label>
+                          <input className="form-control" value={form.contact?.email || ''} onChange={e => handleChange('contact.email', e.target.value)} placeholder="hola@ejemplo.com" />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">Instagram (Usuario sin @)</label>
+                          <input className="form-control" value={form.contact?.instagram || ''} onChange={e => handleChange('contact.instagram', e.target.value)} placeholder="usuario_insta" />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label small fw-bold">Facebook (Usuario o URL)</label>
+                          <input className="form-control" value={form.contact?.facebook || ''} onChange={e => handleChange('contact.facebook', e.target.value)} placeholder="usuario_fb" />
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'settings' && (
+                      <div className="animate-fade-in">
+                        <h5 className="fw-bold mb-4 border-bottom pb-2 text-danger">Seguridad y Ajustes</h5>
+                        <div className="card border-0 shadow-sm rounded-4 p-4 bg-light">
+                          <h6 className="fw-bold mb-3">Cambiar Contraseña de Administrador</h6>
+                          <form onSubmit={handlePasswordChange}>
+                            <div className="mb-3">
+                              <label className="form-label small fw-bold">Contraseña Actual</label>
+                              <input type="password" name="old" className="form-control bg-white"
+                                value={passForm.oldPass} onChange={e => setPassForm({ ...passForm, oldPass: e.target.value })} required />
+                            </div>
+                            <div className="mb-3">
+                              <label className="form-label small fw-bold">Nueva Contraseña</label>
+                              <input type="password" name="new" className="form-control bg-white"
+                                value={passForm.newPass} onChange={e => setPassForm({ ...passForm, newPass: e.target.value })} required />
+                            </div>
+                            <div className="mb-4">
+                              <label className="form-label small fw-bold">Confirmar Nueva Contraseña</label>
+                              <input type="password" name="confirm" className="form-control bg-white"
+                                value={passForm.confirmPass} onChange={e => setPassForm({ ...passForm, confirmPass: e.target.value })} required />
+                            </div>
+                            <button type="submit" className="btn btn-danger px-4 rounded-pill fw-bold">Actualizar Contraseña</button>
+                          </form>
+                        </div>
+
+                        <div className="mt-4 p-3 bg-warning bg-opacity-10 rounded-3 border border-warning border-opacity-25">
+                          <p className="small text-warning-emphasis m-0">
+                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                            Recuerda guardar bien tu nueva contraseña. Si la pierdes, deberás contactar con soporte técnico para resetearla.
+                          </p>
+                        </div>
                       </div>
                     )}
 
@@ -451,8 +552,8 @@ export default function AdminPanel() {
                   </>
                 ) : (
                   <div className="text-center py-5">
-                    <div className="spinner-border text-primary" />
-                    <p className="mt-2 text-muted">Cargando...</p>
+                    <div className="spinner-border text-brand" />
+                    <p className="mt-2 text-muted">Cargando datos...</p>
                   </div>
                 )}
               </div>

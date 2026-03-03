@@ -95,6 +95,23 @@ export function AdminProvider({ children }) {
     }
   }
 
+  async function changePassword(oldPass, newPass) {
+    try {
+      const res = await fetch('/api/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': token
+        },
+        body: JSON.stringify({ oldPass, newPass })
+      })
+      const data = await res.json()
+      return data
+    } catch (err) {
+      return { ok: false, error: 'Error de conexión' }
+    }
+  }
+
   return (
     <AdminContext.Provider value={{
       isAdmin,
@@ -104,7 +121,8 @@ export function AdminProvider({ children }) {
       loading,
       reload: fetchData,
       saveData,
-      uploadImage
+      uploadImage,
+      changePassword
     }}>
       {children}
     </AdminContext.Provider>

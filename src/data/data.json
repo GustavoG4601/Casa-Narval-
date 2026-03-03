@@ -202,5 +202,9 @@
     "title": "Ubicación real",
     "description": "Cerca de tus sueños",
     "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.9451658032676!2d-75.55209332542137!3d10.425926189702324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f26fd2d33ff%3A0x72f39b89db9a4b40!2sUniversidad%20de%20Cartagena!5e0!3m2!1ses!2sco!4v1772386275873!5m2!1ses!2sco\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+  },
+  "calendar": {
+    "embedUrl": "https://calendar.google.com/calendar/embed?src=6b95d1b83c20eca14cff4d54a6a7c3296d1e3326a9676846aa9f5bb79f0f3b6a%40group.calendar.google.com&ctz=America%2FBogota",
+    "publicId": "https://calendar.google.com/calendar/ical/6b95d1b83c20eca14cff4d54a6a7c3296d1e3326a9676846aa9f5bb79f0f3b6a%40group.calendar.google.com/public/basic.ics"
   }
 }

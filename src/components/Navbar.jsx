@@ -27,18 +27,17 @@ export default function Navbar() {
   }
 
   return (
-    <nav className={`navbar navbar-expand-lg border-bottom sticky-top py-3 transition-all ${
-      isHome 
-        ? (isScrolled ? 'bg-white shadow-sm' : 'bg-transparent')
-        : 'bg-white'
-    }`}>
+    <nav className={`navbar navbar-expand-lg border-bottom sticky-top py-3 transition-all ${isHome
+      ? (isScrolled ? 'bg-white shadow-sm' : 'bg-transparent')
+      : 'bg-white'
+      }`}>
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
           <div className="bg-brand rounded-3 p-1 d-flex align-items-center justify-content-center" style={{ width: 34, height: 34 }}>
             <img src="/favicon.svg" width="22" height="22" alt="logo" />
           </div>
           <div className="d-flex flex-column lh-1">
-            <strong className="text-dark-blue fw-bold" style={{ fontSize: '1.2rem' }}>Cabaña Playa</strong>
+            <strong className="text-dark-blue fw-bold" style={{ fontSize: '1.2rem' }}>Casa Narval</strong>
             <span className="small text-muted" style={{ fontSize: '.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Sitio Oficial</span>
           </div>
         </Link>
@@ -48,7 +47,7 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarsMain" ref={navbarCollapseRef}>
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
             <li className="nav-item"><NavLink className="nav-link fw-medium" to="/galeria" onClick={handleNavLinkClick}>Galería</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/precios" onClick={handleNavLinkClick}>Precios</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link fw-medium" to="/precios" onClick={handleNavLinkClick}>Disponibilidad</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link fw-medium" to="/servicios" onClick={handleNavLinkClick}>Servicios</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link fw-medium" to="/ubicacion" onClick={handleNavLinkClick}>Ubicación</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link fw-medium" to="/resenas" onClick={handleNavLinkClick}>Reseñas</NavLink></li>
