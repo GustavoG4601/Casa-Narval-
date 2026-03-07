@@ -15,52 +15,36 @@ export default function Contacto() {
           </span>
           <h1 className="display-4 fw-bold text-dark-blue mb-3">Contacta con Nosotros</h1>
           <p className="text-muted max-w-600 mx-auto fs-5">
-            ¿Tienes alguna duda o quieres una cotización personalizada? Nuestro equipo te responderá en menos de 24 horas.
+            ¿Tienes alguna duda o quieres una cotización personalizada? Contáctanos por WhatsApp para una respuesta inmediata.
           </p>
         </div>
 
         <div className="row g-lg-5 g-4">
-          {/* Contact Form Column */}
+          {/* Contact WhatsApp Section */}
           <div className="col-lg-7">
-            <div className="card shadow-lg border-0 rounded-4 p-4 p-md-5 animate-slide-up bg-white">
-              <h3 className="fw-bold text-dark-blue mb-4">Envíanos un Mensaje</h3>
-              <form className="row g-4">
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input type="text" className="form-control border-0 bg-light" id="nameInput" placeholder="Nombre completo" />
-                    <label htmlFor="nameInput" className="text-muted">Nombre Completo</label>
-                  </div>
+            <div className="card shadow-lg border-0 rounded-4 p-4 p-md-5 animate-slide-up bg-white text-center h-100 d-flex flex-column justify-content-center">
+              <div className="mb-4">
+                <div className="bg-brand-light p-4 rounded-circle d-inline-block mb-3">
+                  <i className="bi bi-whatsapp display-4 text-brand"></i>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input type="email" className="form-control border-0 bg-light" id="emailInput" placeholder="Correo electrónico" />
-                    <label htmlFor="emailInput" className="text-muted">Correo Electrónico</label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input type="tel" className="form-control border-0 bg-light" id="telInput" placeholder="WhatsApp / Teléfono" />
-                    <label htmlFor="telInput" className="text-muted">Teléfono / WhatsApp</label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input type="text" className="form-control border-0 bg-light" id="subjectInput" placeholder="Nombre completo" />
-                    <label htmlFor="subjectInput" className="text-muted">Asunto / Fechas de interés</label>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="form-floating">
-                    <textarea className="form-control border-0 bg-light" id="messageInput" placeholder="Tu mensaje" style={{ height: '150px' }}></textarea>
-                    <label htmlFor="messageInput" className="text-muted">Tu mensaje (número de personas, preguntas, etc.)</label>
-                  </div>
-                </div>
-                <div className="col-12 mt-4">
-                  <button type="button" className="btn btn-brand w-100 py-3 rounded-pill fw-bold shadow-lg text-white">
-                    Enviar Mensaje Ahora <i className="bi bi-send-fill ms-2"></i>
-                  </button>
-                </div>
-              </form>
+                <h2 className="fw-bold text-dark-blue mb-3">¡Cotiza con Nosotros!</h2>
+                <p className="fs-5 text-dark-blue fw-medium mb-4">
+                  Cotiza aquí también fiestas, cumpleaños y otros eventos por hora.
+                </p>
+              </div>
+              <div className="mt-3">
+                <a
+                  href="https://wa.me/573016795104?text=Hola,%20quisiera%20cotizar%20un%20evento."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-brand w-100 py-3 rounded-pill fw-bold shadow-lg text-white fs-5"
+                >
+                  Contactar por WhatsApp <i className="bi bi-whatsapp ms-2"></i>
+                </a>
+                <p className="small text-muted mt-3">
+                  Haz clic para chatear directamente con nosotros y recibir una cotización inmediata.
+                </p>
+              </div>
             </div>
           </div>
 

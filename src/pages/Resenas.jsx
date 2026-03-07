@@ -16,7 +16,6 @@ export default function Resenas() {
   const platforms = [
     { name: 'Airbnb', icon: 'bi-house-door-fill', color: '#FF385C', link: 'https://airbnb.com' },
     { name: 'Google', icon: 'bi-google', color: '#4285F4', link: 'https://google.com' },
-    { name: 'Booking', icon: 'bi-calendar-check-fill', color: '#003580', link: 'https://booking.com' },
   ]
 
   useEffect(() => {

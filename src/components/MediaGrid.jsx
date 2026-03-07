@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import { AdminContext } from "../context/AdminContext";
+import ImageWithSkeleton from "./ImageWithSkeleton.jsx";
 
 export default function MediaGrid() {
   const { siteData, loading } = useContext(AdminContext);
@@ -80,12 +81,13 @@ export default function MediaGrid() {
                           onClick={() => openGallery(s, imgIdx)}
                           style={{ aspectRatio: '4/3' }}
                         >
-                          <img
+                          <ImageWithSkeleton
                             src={img.src}
                             alt={img.title || 'Foto de la galería'}
                             className="w-100 h-100 object-fit-cover transition-all gallery-img-hover"
+                            containerClass="rounded-4 h-100"
                           />
-                          <div className="gallery-img-overlay position-absolute inset-0 d-flex align-items-center justify-content-center opacity-0 transition-all">
+                          <div className="gallery-img-overlay position-absolute inset-0 d-flex align-items-center justify-content-center opacity-0 transition-all" style={{ zIndex: 2 }}>
                             <i className="bi bi-zoom-in text-white fs-2 shadow-sm"></i>
                           </div>
                         </div>
@@ -127,10 +129,11 @@ export default function MediaGrid() {
               )}
 
               <div className={`gallery-main-container ${isChanging ? 'fade-blur' : ''}`}>
-                <img
+                <ImageWithSkeleton
                   src={selectedSession.images[selectedIndex].src}
                   alt={selectedSession.images[selectedIndex].title}
                   className="gallery-img-featured shadow-2xl"
+                  containerClass="d-flex justify-content-center"
                 />
 
                 <div className="gallery-footer-inline px-3 pt-3 animate-slide-up" style={{ width: '85%' }}>
@@ -154,7 +157,7 @@ export default function MediaGrid() {
                         className={`filmstrip-item shadow-sm ${selectedIndex === idx ? 'active border-white' : ''}`}
                         onClick={() => setSelectedIndex(idx)}
                       >
-                        <img src={img.src} alt="thumbnail" loading="lazy" />
+                        <ImageWithSkeleton src={img.src} alt="thumbnail" containerClass="h-100 w-100" className="w-100 h-100 object-fit-cover" />
                       </div>
                     ))}
                   </div>

@@ -31,31 +31,40 @@ export default function Ubicacion() {
         </div>
 
         <div className="row g-3 g-md-4 mt-4 animate-fade-in">
-          <div className="col-12 col-sm-6 col-lg-4">
+          <div className="col-12 col-sm-6 col-lg-3">
             <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white text-center hover-up transition-all">
-              <div className="bg-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
-                <i className="bi bi-geo-alt-fill fs-3 text-white" />
+              <div className="bg-brand-light text-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
+                <i className="bi bi-geo-alt-fill fs-3" />
               </div>
-              <h5 className="fw-bold text-dark-blue">Nuestra Playa</h5>
-              <p className="text-muted small m-0">A tan solo 3 minutos caminando (250 metros) por un acceso natural y seguro.</p>
+              <h5 className="fw-bold text-dark-blue">Ubicación</h5>
+              <p className="text-muted small m-0">Km 25 Vía del Mar. A solo 20 min de la Zona Norte de Cartagena.</p>
             </div>
           </div>
-          <div className="col-12 col-sm-6 col-lg-4">
+          <div className="col-12 col-sm-6 col-lg-3">
             <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white text-center hover-up transition-all">
-              <div className="bg-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
-                <i className="bi bi-cup-straw fs-3 text-white" />
+              <div className="bg-brand-light text-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
+                <i className="bi bi-cart-fill fs-3" />
               </div>
-              <h5 className="fw-bold text-dark-blue">Gastronomía</h5>
-              <p className="text-muted small m-0">Restaurantes de comida típica del mar y mini-markets a menos de 5 min en carro.</p>
+              <h5 className="fw-bold text-dark-blue">Compras</h5>
+              <p className="text-muted small m-0">Tienda local a pasos del condominio. D1 y Carulla en la Zona Norte.</p>
             </div>
           </div>
-          <div className="col-12 col-sm-6 col-lg-4">
+          <div className="col-12 col-sm-6 col-lg-3">
             <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white text-center hover-up transition-all">
-              <div className="bg-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
-                <i className="bi bi-airplane-fill fs-3 text-white" />
+              <div className="bg-brand-light text-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
+                <i className="bi bi-car-front-fill fs-3" />
               </div>
-              <h5 className="fw-bold text-dark-blue">Acceso</h5>
-              <p className="text-muted small m-0">A 45 minutos del Aeropuerto Internacional. Contamos con transporte privado opcional.</p>
+              <h5 className="fw-bold text-dark-blue">Movilidad</h5>
+              <p className="text-muted small m-0">Recomendamos transporte privado o taxi, especialmente de noche.</p>
+            </div>
+          </div>
+          <div className="col-12 col-sm-6 col-lg-3">
+            <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white text-center hover-up transition-all">
+              <div className="bg-brand-light text-brand rounded-circle p-3 mx-auto mb-3 d-flex align-items-center justify-content-center" style={{ width: 60, height: 60 }}>
+                <i className="bi bi-signpost-split-fill fs-3" />
+              </div>
+              <h5 className="fw-bold text-dark-blue">Peajes</h5>
+              <p className="text-muted small m-0">Para llegar desde Cartagena deberás pasar por 1 peaje.</p>
             </div>
           </div>
         </div>

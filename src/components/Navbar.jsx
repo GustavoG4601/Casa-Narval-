@@ -1,6 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useContext, useRef, useState, useEffect } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
+import WeatherWidget from './WeatherWidget.jsx'
 
 export default function Navbar() {
   const { isAdmin } = useContext(AdminContext)
@@ -34,7 +35,7 @@ export default function Navbar() {
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
           <div className="bg-brand rounded-3 p-1 d-flex align-items-center justify-content-center" style={{ width: 34, height: 34 }}>
-            <img src="/favicon.svg" width="22" height="22" alt="logo" />
+            <img src="/logo.webp" width="22" height="22" alt="logo" />
           </div>
           <div className="d-flex flex-column lh-1">
             <strong className="text-dark-blue fw-bold" style={{ fontSize: '1.2rem' }}>Casa Narval</strong>
@@ -54,6 +55,9 @@ export default function Navbar() {
             <li className="nav-item"><NavLink className="nav-link fw-medium" to="/contacto" onClick={handleNavLinkClick}>Contacto</NavLink></li>
           </ul>
           <div className="d-flex align-items-center ms-3 gap-3">
+            <div className="d-none d-lg-block">
+              <WeatherWidget />
+            </div>
             <Link className="btn btn-brand text-white rounded-pill px-4 fw-bold shadow-sm" to="/precios">
               <i className="bi bi-calendar2-week me-2" />Reservar
             </Link>

@@ -108,7 +108,7 @@ export default function Hero() {
             </span>
 
             <h1 className="display-5 fw-bold mb-3">
-              {siteData?.hero?.title ?? 'Cabaña frente al mar — diseño moderno, brisa eterna'}
+              {siteData?.hero?.title ?? 'Hotel frente al mar — diseño moderno, brisa eterna'}
             </h1>
 
             <p className="lead mb-4">

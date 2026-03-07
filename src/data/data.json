@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Cabaña frente al mar — diseño moderno, brisa eterna",
+    "title": "Hotel frente al mar — diseño moderno, brisa eterna",
     "subtitle": "Despierta con el sonido de las olas, camina 3 minutos a la playa y disfruta de una estancia cómoda con espacios pensados para descansar."
   },
   "home": {
@@ -57,6 +57,23 @@
           "title": "Terraza al atardecer"
         }
       ]
+    },
+    {
+      "id": "sesion-1772908786815",
+      "title": "Nueva Sesión",
+      "mainImage": "https://images.unsplash.com/photo-1566073771259-6a8506099945?im_w=1440",
+      "images": [
+        {
+          "src": "/media/mmgo5vnl-718fc0vnpkq.webp",
+          "title": "Nueva foto"
+        }
+      ]
+    },
+    {
+      "id": "sesion-1772909030864",
+      "title": "hoa",
+      "mainImage": "https://images.unsplash.com/photo-1566073771259-6a8506099945?im_w=1440",
+      "images": []
     }
   ],
   "plans": [
@@ -65,7 +82,7 @@
       "desc": "De lunes a jueves, excepto festivos.",
       "price": 250000,
       "includes": [
-        "Hasta 15 huéspedes",
+        "Hasta 1 huéspedes",
         "Limpieza incluida",
         "Estacionamiento"
       ]
@@ -95,116 +112,86 @@
     {
       "icon": "wifi",
       "title": "Wi-Fi de alta velocidad",
-      "text": "Trabaja o disfruta de streaming sin cortes."
+      "text": "Red: Casa Narval o Starling Principal. Contraseña: CERDYCOM"
+    },
+    {
+      "icon": "fire",
+      "title": "Cocina a Gas",
+      "text": "Funciona con pipeta (abrir llave antes de usar). Contamos con repuesto si se agota."
+    },
+    {
+      "icon": "sun",
+      "title": "Asador BBQ (Gas)",
+      "text": "Asador a gas listo para usar (no requiere carbón). Solo abrir llave y encender."
+    },
+    {
+      "icon": "droplet",
+      "title": "Jacuzzi Privado",
+      "text": "Requiere activación. Solicita instrucciones por WhatsApp (+57 3173332214)."
+    },
+    {
+      "icon": "shield-lock",
+      "title": "Acceso Inteligente",
+      "text": "Código de puerta principal enviado al momento de tu llegada."
     },
     {
       "icon": "wind",
       "title": "Aire acondicionado",
-      "text": "Clima perfecto todo el año."
-    },
-    {
-      "icon": "sun",
-      "title": "Terraza con vista",
-      "text": "Atardeceres increíbles frente al mar."
-    },
-    {
-      "icon": "cup-hot",
-      "title": "Cocina equipada",
-      "text": "Cafetera, licuadora, congelador y vajilla completa."
-    },
-    {
-      "icon": "droplet",
-      "title": "Piscina y jacuzzi",
-      "text": "Relájate en espacios de agua privada."
-    },
-    {
-      "icon": "car-front",
-      "title": "Parqueadero gratuito",
-      "text": "Privado y seguro, disponible 24/7."
+      "text": "Clima perfecto. Por favor apágalos si no estás en la habitación."
     },
     {
       "icon": "tv",
       "title": "TV",
-      "text": "Pantalla plana con señal local."
-    },
-    {
-      "icon": "fire",
-      "title": "Zona de fogata",
-      "text": "Ambiente acogedor para las noches frescas."
+      "text": "Pantalla plana con señal local y Starlink."
     },
     {
       "icon": "umbrella",
       "title": "Acceso a playa",
-      "text": "Salida directa a playa privada."
-    },
-    {
-      "icon": "shield-lock",
-      "title": "Seguridad",
-      "text": "Cámaras exteriores, botiquín y extintor."
-    },
-    {
-      "icon": "house-heart",
-      "title": "Espacios familiares",
-      "text": "Ideal para grupos grandes o familias."
-    },
-    {
-      "icon": "person-workspace",
-      "title": "Zona de trabajo",
-      "text": "Espacio tranquilo con buena conexión."
-    },
-    {
-      "icon": "tree",
-      "title": "Hamaca y exterior",
-      "text": "Relájate en hamaca, zona BBQ y terraza."
-    },
-    {
-      "icon": "dumbbell",
-      "title": "Ejercicio",
-      "text": "Equipo básico para entrenar."
+      "text": "Salida directa a playa a solo 3 minutos caminando."
     }
   ],
   "notAvailable": [
     {
-      "icon": "exclamation-triangle",
-      "title": "Detector de humo",
-      "text": "Este espacio no cuenta con detector de humo."
-    },
-    {
-      "icon": "exclamation-triangle",
-      "title": "Detector de monóxido",
-      "text": "No tiene detector de monóxido de carbono."
-    },
-    {
       "icon": "slash-circle",
-      "title": "Secadora",
-      "text": "Este espacio no ofrece secadora de ropa."
+      "title": "No Fumar",
+      "text": "Prohibido fumar dentro de la casa. Solo vape en exteriores."
     },
     {
-      "icon": "thermometer",
-      "title": "Calefacción",
-      "text": "No incluye sistema de calefacción."
-    },
-    {
-      "icon": "droplet-half",
-      "title": "Agua caliente",
-      "text": "No dispone de agua caliente."
-    },
-    {
-      "icon": "tools",
-      "title": "Servicios imprescindibles",
-      "text": "Algunos servicios básicos no están disponibles."
+      "icon": "exclamation-triangle",
+      "title": "Vidrio en Piscina",
+      "text": "Está prohibido llevar envases de vidrio al área de la piscina."
     }
   ],
   "contact": {
-    "whatsapp": "573046601648"
+    "whatsapp": "573016795104",
+    "email": "gustavoguerraa08@gmail.com",
+    "instagram": "soymaleiwa"
   },
   "location": {
-    "title": "Ubicación real",
-    "description": "Cerca de tus sueños",
-    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.9451658032676!2d-75.55209332542137!3d10.425926189702324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f26fd2d33ff%3A0x72f39b89db9a4b40!2sUniversidad%20de%20Cartagena!5e0!3m2!1ses!2sco!4v1772386275873!5m2!1ses!2sco\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+    "title": "Ubicación Privilegiada",
+    "description": "Km 25 Vía del Mar, a 20 minutos de la zona norte de Cartagena.",
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3921.177252336272!2d-75.4135848!3d10.643334099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef6415e38201b93%3A0x8b8e5c7e9b129db!2sCasa%20Narval%20-%20Hotel%20de%20Playa!5e0!3m2!1ses!2sco!4v1772910015830!5m2!1ses!2sco\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
   },
   "calendar": {
     "embedUrl": "https://calendar.google.com/calendar/embed?src=6b95d1b83c20eca14cff4d54a6a7c3296d1e3326a9676846aa9f5bb79f0f3b6a%40group.calendar.google.com&ctz=America%2FBogota",
     "publicId": "https://calendar.google.com/calendar/ical/6b95d1b83c20eca14cff4d54a6a7c3296d1e3326a9676846aa9f5bb79f0f3b6a%40group.calendar.google.com/public/basic.ics"
-  }
+  },
+  "faqs": [
+    {
+      "question": "¿Aceptan mascotas?",
+      "answer": "Sí, aceptamos mascotas bajo previa solicitud. Aplican cargos adicionales por limpieza profunda."
+    },
+    {
+      "question": "¿Hay parqueadero privado?",
+      "answer": "Sí, contamos con parqueadero privado y gratuito dentro del condominio para tu total seguridad."
+    },
+    {
+      "question": "¿Qué tan cerca está la playa?",
+      "answer": "La playa está a solo 3 minutos caminando (aproximadamente 250 metros) por un sendero natural."
+    },
+    {
+      "question": "Nueva Pregunta",
+      "answer": "sisisis"
+    }
+  ]
 }

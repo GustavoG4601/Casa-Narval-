@@ -2,6 +2,8 @@ import { useContext, useState, useEffect, useRef } from 'react'
 import { AdminContext } from '../context/AdminContext.jsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast, ToastContainer } from './Toast.jsx'
+import { compressImage } from '../utils/imageUtils'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 export default function AdminPanel() {
   const { isAdmin, login, logout, siteData, saveData, uploadImage, reload, changePassword } = useContext(AdminContext)
@@ -48,13 +50,20 @@ export default function AdminPanel() {
     const file = e.target.files[0]
     if (!file) return
     setUploading(true)
-    const res = await uploadImage(file)
-    setUploading(false)
-    if (res?.ok && res.path) {
-      handleChange(path, res.path)
-      showToast('Imagen subida correctamente', 'success')
-    } else {
-      showToast('Error al subir la imagen. Intenta de nuevo', 'error')
+    try {
+      const compressedFile = await compressImage(file)
+      const res = await uploadImage(compressedFile)
+      if (res?.ok && res.path) {
+        handleChange(path, res.path)
+        showToast('Imagen subida y optimizada correctamente', 'success')
+      } else {
+        showToast('Error al subir la imagen. Intenta de nuevo', 'error')
+      }
+    } catch (err) {
+      console.error("Compression error:", err)
+      showToast('Error al procesar la imagen', 'error')
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -62,18 +71,25 @@ export default function AdminPanel() {
     const file = e.target.files[0]
     if (!file) return
     setUploading(true)
-    const res = await uploadImage(file)
-    setUploading(false)
-    if (res?.ok && res.path) {
-      const nextForm = { ...form }
-      const session = nextForm.sessions.find(s => s.id === sessionId)
-      if (session) {
-        session.images.push({ src: res.path, title: 'Nueva foto' })
-        setForm(nextForm)
-        showToast('Foto anadida a la galeria', 'success')
+    try {
+      const compressedFile = await compressImage(file)
+      const res = await uploadImage(compressedFile)
+      if (res?.ok && res.path) {
+        const nextForm = { ...form }
+        const session = nextForm.sessions.find(s => s.id === sessionId)
+        if (session) {
+          session.images.push({ src: res.path, title: 'Nueva foto' })
+          setForm(nextForm)
+          showToast('Foto optimizada y añadida a la galería', 'success')
+        }
+      } else {
+        showToast('Error al subir la foto. Intenta de nuevo', 'error')
       }
-    } else {
-      showToast('Error al subir la foto. Intenta de nuevo', 'error')
+    } catch (err) {
+      console.error("Compression error:", err)
+      showToast('Error al procesar la foto', 'error')
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -150,6 +166,22 @@ export default function AdminPanel() {
       images: []
     })
     setForm(nextForm)
+
+    // Scroll to the new session after it renders
+    setTimeout(() => {
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        // Add a temporary highlight effect
+        element.style.transition = 'all 0.5s'
+        element.style.boxShadow = '0 0 20px rgba(0, 180, 216, 0.4)'
+        element.style.borderColor = 'var(--brand)'
+        setTimeout(() => {
+          element.style.boxShadow = ''
+          element.style.borderColor = 'transparent'
+        }, 2000)
+      }
+    }, 100)
   }
 
   const removeSession = (id) => {
@@ -244,10 +276,16 @@ export default function AdminPanel() {
                   <i className="bi bi-person-rolodex me-2" /> Contacto
                 </div>
                 <div
-                  className={`p-3 rounded-3 cursor-pointer transition-all ${activeTab === 'settings' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
+                  className={`p-3 rounded-3 mb-2 cursor-pointer transition-all ${activeTab === 'settings' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
                   onClick={() => setActiveTab('settings')}
                 >
                   <i className="bi bi-shield-lock-fill me-2" /> Ajustes
+                </div>
+                <div
+                  className={`p-3 rounded-3 cursor-pointer transition-all ${activeTab === 'faq' ? 'bg-info bg-opacity-10 text-brand fw-bold shadow-sm' : 'text-muted'}`}
+                  onClick={() => setActiveTab('faq')}
+                >
+                  <i className="bi bi-patch-question-fill me-2" /> FAQ
                 </div>
               </div>
             </div>
@@ -271,7 +309,7 @@ export default function AdminPanel() {
                         <div className="mb-4">
                           <label className="form-label small fw-bold">Imagen Home Destacada</label>
                           <div className="d-flex gap-3 align-items-end">
-                            <img src={form.home?.featureImage} className="rounded-3 shadow-sm" style={{ width: 120, height: 80, objectFit: 'cover' }} alt="imagen destacada" loading="lazy" />
+                            <ImageWithSkeleton src={form.home?.featureImage} className="rounded-3 shadow-sm" containerStyle={{ width: 120, height: 80 }} alt="imagen destacada" />
                             <input type="file" className="form-control" onChange={e => handleImage(e, 'home.featureImage')} accept="image/*" />
                           </div>
                         </div>
@@ -305,7 +343,7 @@ export default function AdminPanel() {
 
                         {form.sessions?.length > 0 ? (
                           form.sessions.map((session, sIdx) => (
-                            <div key={session.id} className="mb-5 p-4 border-0 shadow-sm rounded-4 bg-white position-relative hover-up transition-all border border-transparent hover-border-info">
+                            <div key={session.id} id={session.id} className="mb-5 p-4 border-0 shadow-sm rounded-4 bg-white position-relative hover-up transition-all border border-transparent hover-border-info">
                               <button onClick={() => removeSession(session.id)} className="btn btn-sm btn-outline-danger border-0 position-absolute top-0 end-0 m-3 rounded-circle">
                                 <i className="bi bi-trash3 fs-5" />
                               </button>
@@ -321,7 +359,7 @@ export default function AdminPanel() {
                                 <div className="col-lg-6">
                                   <label className="small fw-bold text-muted mb-2">Imagen de Portada (Miniatura)</label>
                                   <div className="d-flex gap-3 align-items-center">
-                                    <img src={session.mainImage} className="rounded-3 shadow-sm border" style={{ width: 80, height: 50, objectFit: 'cover' }} alt="portada" loading="lazy" />
+                                    <ImageWithSkeleton src={session.mainImage} className="rounded-3 shadow-sm border" containerStyle={{ width: 80, height: 50 }} alt="portada" />
                                     <div className="flex-grow-1">
                                       <button type="button" onClick={() => fileInputRefs.current[`main-${session.id}`]?.click()} className="btn btn-sm btn-outline-info w-100 rounded-2 py-2" disabled={uploading}>{uploading ? 'Cargando...' : 'Cambiar Portada'}</button>
                                       <input
@@ -353,7 +391,7 @@ export default function AdminPanel() {
                                 <div className="gallery-admin-grid">
                                   {session.images.map((img, idx) => (
                                     <div key={idx} className="gallery-admin-item shadow-sm">
-                                      <img src={img.src} className="rounded-3" alt={`img-${idx}`} />
+                                      <ImageWithSkeleton src={img.src} className="rounded-3 h-100 w-100" containerClass="h-100 w-100" alt={`img-${idx}`} />
                                       <button onClick={() => removeGalleryImage(session.id, idx)} className="gallery-admin-delete shadow-lg">✕</button>
                                     </div>
                                   ))}
@@ -507,6 +545,43 @@ export default function AdminPanel() {
                           <label className="form-label small fw-bold">Facebook (Usuario o URL)</label>
                           <input className="form-control" value={form.contact?.facebook || ''} onChange={e => handleChange('contact.facebook', e.target.value)} placeholder="usuario_fb" />
                         </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'faq' && (
+                      <div className="animate-fade-in">
+                        <div className="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                          <h5 className="fw-bold m-0 text-dark-blue">Preguntas Frecuentes (FAQ)</h5>
+                          <button className="btn btn-sm btn-brand text-white rounded-pill px-3" onClick={() => {
+                            const nextForm = JSON.parse(JSON.stringify(form))
+                            if (!nextForm.faqs) nextForm.faqs = []
+                            nextForm.faqs.push({ question: 'Nueva Pregunta', answer: 'Nueva Respuesta' })
+                            setForm(nextForm)
+                          }}>+ Añadir Pregunta</button>
+                        </div>
+
+                        {(form.faqs || []).map((faq, idx) => (
+                          <div key={idx} className="card p-3 mb-3 border-0 bg-light rounded-4 position-relative">
+                            <div className="mb-3">
+                              <label className="form-label small fw-bold">Pregunta</label>
+                              <input className="form-control bg-white" value={faq.question} onChange={e => handleChange(`faqs.${idx}.question`, e.target.value)} />
+                            </div>
+                            <div>
+                              <label className="form-label small fw-bold">Respuesta</label>
+                              <textarea className="form-control bg-white" rows={2} value={faq.answer} onChange={e => handleChange(`faqs.${idx}.answer`, e.target.value)} />
+                            </div>
+                            <button
+                              onClick={() => {
+                                const nextForm = JSON.parse(JSON.stringify(form))
+                                nextForm.faqs.splice(idx, 1)
+                                setForm(nextForm)
+                              }}
+                              className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 rounded-circle border-0"
+                            >
+                              <i className="bi bi-trash" />
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     )}
 

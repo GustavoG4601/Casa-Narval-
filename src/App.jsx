@@ -13,6 +13,7 @@ import Ubicacion from './pages/Ubicacion.jsx'
 import Reseñas from './pages/Resenas.jsx'
 import Contacto from './pages/Contacto.jsx'
 import Politicas from './pages/Politicas.jsx'
+import Faq from './pages/Faq.jsx'
 
 function AppRoutes() {
   const { siteData, loading } = useContext(AdminContext)
@@ -46,6 +47,7 @@ function AppRoutes() {
           <Route path="/resenas" element={<Reseñas />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/politicas" element={<Politicas />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>

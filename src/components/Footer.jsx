@@ -16,6 +16,7 @@ export default function Footer() {
     { label: 'Ubicación', to: '/ubicacion' },
     { label: 'Reseñas', to: '/resenas' },
     { label: 'Políticas', to: '/politicas' },
+    { label: 'Preguntas Frecuentes', to: '/faq' },
   ]
 
   return (
@@ -31,7 +32,7 @@ export default function Footer() {
               Casa Narval
             </h5>
             <p className="footer-link small mb-4 pe-lg-4">
-              {siteData?.hero?.subtitle || 'Experimenta el paraíso moderno en nuestra cabaña frente al mar. Diseño, confort y la mejor vista del Caribe.'}
+              {siteData?.hero?.subtitle || 'Experimenta el paraíso moderno en nuestra Hotel frente al mar. Diseño, confort y la mejor vista del Caribe.'}
             </p>
             <div className="d-flex gap-3 mt-4">
               {contact.instagram && (
@@ -58,7 +59,7 @@ export default function Footer() {
             <div className="row g-2">
               <div className="col-6">
                 <ul className="list-unstyled">
-                  {navLinks.slice(0, 3).map((link, idx) => (
+                  {navLinks.slice(0, Math.ceil(navLinks.length / 2)).map((link, idx) => (
                     <li key={idx} className="mb-2">
                       <Link to={link.to} className="footer-link small text-decoration-none d-flex align-items-center gap-2">
                         <i className="bi bi-chevron-right small opacity-50 text-brand"></i> {link.label}
@@ -69,7 +70,7 @@ export default function Footer() {
               </div>
               <div className="col-6">
                 <ul className="list-unstyled">
-                  {navLinks.slice(3).map((link, idx) => (
+                  {navLinks.slice(Math.ceil(navLinks.length / 2)).map((link, idx) => (
                     <li key={idx} className="mb-2">
                       <Link to={link.to} className="footer-link small text-decoration-none d-flex align-items-center gap-2">
                         <i className="bi bi-chevron-right small opacity-50 text-brand"></i> {link.label}
@@ -120,7 +121,7 @@ export default function Footer() {
           <div className="row align-items-center">
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <p className="small footer-link mb-0">
-                &copy; {new Date().getFullYear()} <span className="text-dark-blue fw-bold">Casa Narval — Cabaña Playa</span>. Todos los derechos reservados.
+                &copy; {new Date().getFullYear()} <span className="text-dark-blue fw-bold">Casa Narval — Hotel de Playa</span>. Todos los derechos reservados.
               </p>
             </div>
             <div className="col-md-6 text-center text-md-end">
